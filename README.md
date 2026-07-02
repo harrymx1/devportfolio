@@ -2,6 +2,11 @@
 
 Sebuah platform portofolio modern berskala *Enterprise* yang dirancang dengan memadukan estetika UI kelas atas dan sistem *Backend* yang tangguh. Proyek ini mendemonstrasikan implementasi React (Vite) untuk *Frontend* dan Node.js/Express untuk *Backend*, disokong oleh PostgreSQL (*Supabase*).
 
+## 🔗 Live Demo & Akses Publik
+- **Website Frontend (Vercel):** [https://devportfolio-harry.vercel.app](https://devportfolio-harry.vercel.app)
+- **Backend API (Railway):** [https://devportfolio-production-7e37.up.railway.app/api/projects](https://devportfolio-production-7e37.up.railway.app/api/projects)
+- **Video Demo Walkthrough:** `[Link Video Demo Menyusul]`
+
 ## ✨ Fitur Unggulan
 
 - **Arsitektur Full-Stack Modern:** Pemisahan struktur secara monorepo (Frontend & Backend).
