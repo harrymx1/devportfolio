@@ -21,6 +21,8 @@ const AdminLayout = () => {
   const getPageTitle = () => {
     if (location.pathname.includes('/projects')) return 'Projects';
     if (location.pathname.includes('/skills')) return 'Skills';
+    if (location.pathname.includes('/experiences')) return 'Experiences';
+    if (location.pathname.includes('/profile')) return 'Profile';
     if (location.pathname.includes('/messages')) return 'Messages';
     if (location.pathname.includes('/settings')) return 'Settings';
     return 'Dashboard';
@@ -48,6 +50,14 @@ const AdminLayout = () => {
             <NavLink to="/admin/skills" className={({ isActive }) => (isActive ? 'active' : '')}>
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
               Skills
+            </NavLink>
+            <NavLink to="/admin/experiences" className={({ isActive }) => (isActive ? 'active' : '')}>
+              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Experiences
+            </NavLink>
+            <NavLink to="/admin/profile" className={({ isActive }) => (isActive ? 'active' : '')}>
+              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Profile
             </NavLink>
             <NavLink to="/admin/messages" className={({ isActive }) => (isActive ? 'active' : '')}>
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>

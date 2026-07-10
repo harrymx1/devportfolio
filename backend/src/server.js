@@ -7,6 +7,8 @@ const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const skillRoutes = require('./routes/skillRoutes');
 const messageRoutes = require('./routes/messageRoutes');
+const experienceRoutes = require('./routes/experienceRoutes');
+const settingRoutes = require('./routes/settingRoutes');
 
 // Load env vars
 dotenv.config();
@@ -26,6 +28,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/experiences', experienceRoutes);
+app.use('/api/settings', settingRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {

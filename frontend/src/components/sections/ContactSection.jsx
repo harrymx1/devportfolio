@@ -10,6 +10,25 @@ const ContactSection = () => {
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [toastMsg, setToastMsg] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [settings, setSettings] = useState(null);
+
+  React.useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await api.get('/settings');
+        if (data.success) {
+          setSettings(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch settings', error);
+      }
+    };
+    fetchSettings();
+  }, []);
+
+  const email = settings?.contact_email || 'hello@devportfolio.com';
+  const github = settings?.contact_github || '#';
+  const linkedin = settings?.contact_linkedin || '#';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,19 +78,19 @@ const ContactSection = () => {
             <p className="lead">Feel free to reach out through any of these platforms.</p>
             
             <div className="info-list">
-              <a href="mailto:hello@devportfolio.com" className="info-link">
+              <a href={`mailto:${email}`} className="info-link">
                 <Mail size={18} />
-                <span>hello@devportfolio.com</span>
+                <span>{email}</span>
               </a>
               <div className="info-link" style={{ cursor: 'default' }}>
                 <MapPin size={18} />
                 <span>Jakarta, Indonesia (Remote)</span>
               </div>
-              <a href="#" className="info-link">
+              <a href={github} target="_blank" rel="noopener noreferrer" className="info-link">
                 <Github size={18} />
                 <span>GitHub Profile</span>
               </a>
-              <a href="#" className="info-link">
+              <a href={linkedin} target="_blank" rel="noopener noreferrer" className="info-link">
                 <Linkedin size={18} />
                 <span>LinkedIn Profile</span>
               </a>

@@ -5,6 +5,7 @@ import { HoverBorderGradient } from '../ui/HoverBorderGradient';
 import { motion } from 'framer-motion';
 import { SparklesCore } from '../ui/Sparkles';
 import { BackgroundGradient } from '../ui/BackgroundGradient';
+import api from '../../lib/axios';
 
 const Pill = ({ children }) => (
   <HoverBorderGradient
@@ -16,6 +17,29 @@ const Pill = ({ children }) => (
 );
 
 const HeroSection = () => {
+  const [settings, setSettings] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await api.get('/settings');
+        if (data.success) {
+          setSettings(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch settings', error);
+      }
+    };
+    fetchSettings();
+  }, []);
+
+  const name = settings?.about_name || 'John Doe';
+  const role = settings?.about_role || 'Fullstack Engineer';
+  const focusAreas = settings?.about_focus ? settings.about_focus.split(',').map(s => s.trim()) : ['UX/UI', 'Scalability'];
+  const description = settings?.about_description || 'Crafting functional, scalable, and aesthetically pleasing web applications.';
+  const cvUrl = settings?.about_cv_url || '#';
+  const imageUrl = settings?.about_image_url || '';
+
   return (
     <>
       <section className="hero">
@@ -24,13 +48,13 @@ const HeroSection = () => {
           <div className="hero-text">
             <span className="badge-available"><span className="dot" aria-hidden="true"></span>Available for work</span>
             <h1>
-              <TextGenerateEffect words="Fullstack Developer" />
+              <TextGenerateEffect words={role.split(' ').slice(0, -1).join(' ')} />
               <br />
               <span className="accent">
-                <TextGenerateEffect words="in Progress" />
+                <TextGenerateEffect words={role.split(' ').slice(-1).join(' ')} />
               </span>
             </h1>
-            <p className="lead">Crafting functional, scalable, and aesthetically pleasing web applications. Bridging the gap between robust backend architecture and intuitive frontend experiences.</p>
+            <p className="lead">{description}</p>
             <div className="hero-ctas">
               <Link to="/projects" className="btn btn-primary">View Projects</Link>
               <Link to="/contact" className="btn btn-secondary">Contact Me</Link>
@@ -49,9 +73,9 @@ const HeroSection = () => {
             <div className="traffic-lights"><span className="red"></span><span className="yellow"></span><span className="green"></span></div>
             <pre dangerouslySetInnerHTML={{
               __html: `<span class="kw">const</span> developer = {
-  name: <span class="str">'John Doe'</span>,
-  role: <span class="str">'Fullstack Engineer'</span>,
-  focus: [<span class="str">'UX/UI'</span>, <span class="str">'Scalability'</span>],
+  name: <span class="str">'${name}'</span>,
+  role: <span class="str">'${role}'</span>,
+  focus: [${focusAreas.map(f => `<span class="str">'${f}'</span>`).join(', ')}],
   status: <span class="lit">true</span>
 };
 
@@ -93,12 +117,16 @@ const HeroSection = () => {
             animate={{ y: [-5, 5, -5] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
           >
-            <BackgroundGradient className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] flex items-center justify-center bg-[#0B0B0F]">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{color: '#6366F1'}}>
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <path d="M21 15l-5-5L5 21" />
-              </svg>
+            <BackgroundGradient className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] flex items-center justify-center bg-[#0B0B0F] overflow-hidden">
+              {imageUrl ? (
+                <img src={imageUrl} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{color: '#6366F1'}}>
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <path d="M21 15l-5-5L5 21" />
+                </svg>
+              )}
             </BackgroundGradient>
           </motion.div>
           <motion.div 
@@ -109,15 +137,17 @@ const HeroSection = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <h2><TextGenerateEffect words="About Me" /></h2>
-            <p>As a Computer Science student, I am driven by a deep sense of technical rigor and a passion for building high-performance systems that solve real-world problems. My academic journey has equipped me with the foundational knowledge to navigate complex architectures while maintaining a user-centric perspective. I thrive in environments where performance and precision meet, constantly pushing the boundaries of what modern web technology can achieve.</p>
-            <a href="#" className="btn btn-gradient-outline flex items-center gap-2">
-              Download CV
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-            </a>
+            <p>{description}</p>
+            {cvUrl && cvUrl !== '#' && (
+              <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="btn btn-gradient-outline flex items-center gap-2">
+                Download CV
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </a>
+            )}
           </motion.div>
         </div>
       </section>

@@ -16,6 +16,8 @@ import AdminProjects from './pages/admin/AdminProjects';
 import AdminSkills from './pages/admin/AdminSkills';
 import AdminMessages from './pages/admin/AdminMessages';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminProfile from './pages/admin/AdminProfile';
+import AdminExperiences from './pages/admin/AdminExperiences';
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="projects" element={<AdminProjects />} />
               <Route path="skills" element={<AdminSkills />} />
+              <Route path="experiences" element={<AdminExperiences />} />
+              <Route path="profile" element={<AdminProfile />} />
               <Route path="messages" element={<AdminMessages />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>
